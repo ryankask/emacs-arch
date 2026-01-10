@@ -5,9 +5,27 @@ pkgdesc="GNU Emacs development build with PGTK, native compilation, and tree-sit
 arch=('x86_64')
 url="http://www.gnu.org/software/emacs/"
 license=('GPL3')
-depends=('gnutls' 'libxml2' 'jansson' 'harfbuzz' 'libotf' 'libgccjit' 'libxi'
-         'gtk3' 'libsm' 'xcb-util' 'libxcb' 'libjpeg-turbo' 'libpng' 'giflib'
-         'libwebp' 'libtiff' 'libxpm' 'tree-sitter' 'sqlite3')
+depends=(
+  'gnutls'
+  'libxml2'
+  'jansson'
+  'harfbuzz'
+  'libotf'
+  'libgccjit'
+  'libxi'
+  'gtk3'
+  'libsm'
+  'xcb-util'
+  'libxcb'
+  'libjpeg-turbo'
+  'libpng'
+  'giflib'
+  'libwebp'
+  'libtiff'
+  'libxpm'
+  'tree-sitter'
+  'sqlite3'
+)
 makedepends=('git')
 provides=('emacs')
 conflicts=('emacs')
