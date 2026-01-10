@@ -1,5 +1,5 @@
 pkgname=emacs-git-ryan
-pkgver=31.0.50
+pkgver=31.0.50.180773
 pkgrel=1
 pkgdesc="GNU Emacs development build with PGTK, native compilation, and tree-sitter"
 arch=('x86_64')
@@ -16,10 +16,11 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/emacs-git"
-  local base=$(grep '^AC_INIT' configure.ac | sed -n 's/.*\[\([0-9.]*\)\].*/\1/p')
-  local count=$(git rev-list --count HEAD)
-  local commit=$(git rev-parse --short HEAD)
-  printf "%s.r%s.%s" "$base" "$count" "$commit"
+
+  printf "%s.%s" \
+    $(grep AC_INIT configure.ac | \
+    awk -F',' '{ gsub("[ \\[\\]]","",$2); print $2 }') \
+    $(git rev-list --count HEAD)
 }
 
 build() {
@@ -48,7 +49,7 @@ build() {
     --without-compress-install \
     --program-transform-name=s/\([ec]tags\)/\1.emacs/
 
-  CFLAGS="$CFLAGS -flto=auto" LDFLAGS="$LDFLAGS -flto=auto" make
+  make
 }
 
 package() {
