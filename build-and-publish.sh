@@ -9,7 +9,7 @@ set -euo pipefail
 
 # Config
 REPO_DIR="/var/lib/arch-repo/x86_64"
-REPO_NAME="ryan"
+REPO_NAME="vole"
 PKG_NAME="emacs-git-ryan"
 PKGBUILD_DIR="$HOME/src/emacs-arch"
 # Set this if you want to use a specific GPG key ID, otherwise default key is used
