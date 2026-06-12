@@ -1,5 +1,5 @@
 pkgname=emacs-git-ryan
-pkgver=31.0.50.180773
+pkgver=32.0.50.182572
 pkgrel=1
 pkgdesc="GNU Emacs development build with PGTK, native compilation, and tree-sitter"
 arch=('x86_64')
@@ -57,7 +57,7 @@ build() {
     --with-modules \
     --without-m17n-flt \
     --without-gconf \
-    --with-native-compilation=yes \
+    --with-native-compilation=aot \
     --with-xinput2 \
     --with-pgtk \
     --without-xaw3d \
