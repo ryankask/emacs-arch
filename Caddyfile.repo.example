@@ -1,0 +1,20 @@
+:8080 {
+    bind 10.0.0.1
+    root * /var/lib/arch-repo
+    file_server
+
+    @db {
+        path *.db
+    }
+    header @db Content-Type application/x-gtar
+
+    @files {
+        path *.files
+    }
+    header @files Content-Type application/x-gtar
+
+    @pkg {
+        path *.pkg.tar.zst
+    }
+    header @pkg Content-Type application/octet-stream
+}
