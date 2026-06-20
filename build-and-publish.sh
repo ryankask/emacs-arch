@@ -113,4 +113,4 @@ ls -la "$REPO_DIR"
 
 echo "=== Cleaning up build artifacts ==="
 cd "$PKGBUILD_DIR"
-rm -rf pkg/
+rm -rf pkg/ *.pkg.tar* *.src.tar*
