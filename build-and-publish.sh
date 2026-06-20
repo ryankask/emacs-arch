@@ -16,22 +16,23 @@ PKGBUILD_DIR="$HOME/src/emacs-arch"
 GPG_KEY=""
 
 # Validate GPG signing capability
-if ! gpg --list-secret-keys "${GPG_KEY:-}" >/dev/null 2>&1; then
-    echo "ERROR: No GPG secret key available for signing"
-    exit 1
+if [[ -n "${GPG_KEY:-}" ]]; then
+    gpg --list-secret-keys "$GPG_KEY" >/dev/null 2>&1 || { echo "ERROR: No GPG secret key available for signing"; exit 1; }
+else
+    gpg --list-secret-keys >/dev/null 2>&1 || { echo "ERROR: No GPG secret key available for signing"; exit 1; }
 fi
 
 mkdir -p "$REPO_DIR"
 cd "$PKGBUILD_DIR"
 
 echo "=== Updating sources ==="
-makepkg -o -s --nobuild --nocheck
+makepkg -fo -s --nobuild --nocheck
 
 echo "=== Building package ==="
 # Use chroot if we have passwordless sudo, otherwise local build
 if sudo -n extra-x86_64-build -- --needed 2>/dev/null; then
     echo "Chroot build succeeded"
-elif makepkg -s --noconfirm; then
+elif makepkg -fs --noconfirm; then
     echo "Local build succeeded"
 else
     echo "ERROR: Build failed"
@@ -98,10 +99,13 @@ else
 fi
 
 # Flatten symlinks so any web server (Caddy, etc.) serves them correctly
-cp -f "$REPO_NAME.db.tar.gz" "$REPO_NAME.db"
-cp -f "$REPO_NAME.files.tar.gz" "$REPO_NAME.files" 2>/dev/null || true
+rm -f "$REPO_NAME.db"
+cp "$REPO_NAME.db.tar.gz" "$REPO_NAME.db"
+rm -f "$REPO_NAME.files"
+cp "$REPO_NAME.files.tar.gz" "$REPO_NAME.files" 2>/dev/null || true
 if [[ -f "$REPO_NAME.db.tar.gz.sig" ]]; then
-    cp -f "$REPO_NAME.db.tar.gz.sig" "$REPO_NAME.db.sig"
+    rm -f "$REPO_NAME.db.sig"
+    cp "$REPO_NAME.db.tar.gz.sig" "$REPO_NAME.db.sig"
 fi
 
 echo "=== Build complete ==="
