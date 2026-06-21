@@ -1,5 +1,5 @@
 pkgname=emacs-git-ryan
-pkgver=32.0.50.182596
+pkgver=32.0.50.182625
 pkgrel=1
 pkgdesc="GNU Emacs development build with PGTK, native compilation, and tree-sitter"
 arch=('x86_64')
@@ -67,8 +67,8 @@ build() {
     --without-compress-install \
     --program-transform-name=s/\([ec]tags\)/\1.emacs/
 
-  rm -rf native-lisp
   make
+  make -C lisp compile-eln-aot EMACS="../src/emacs"
 }
 
 package() {
